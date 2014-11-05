@@ -1,0 +1,13 @@
+   label {
+        display: block;
+        width: 180px;
+        float: left;
+        font-weight: bold;
+        font-size: 15px;
+    }
+    input {
+        width: 190px;
+    }
+    select {
+        width: 195px;
+    }
