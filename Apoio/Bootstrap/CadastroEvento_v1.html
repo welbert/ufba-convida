@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Cadastro de Evento - Feito com Bootstrap</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/formulario.js"></script>
+	</head>
+	<body>  
+		<script src="js/bootstrap.min.js"></script>
+		<!--Menu Horizontal -->
+		<div class="btn-group btn-group-horizontal">
+			<button type="button" class="btn btn-success">Home</button>
+			<button type="button" class="btn btn-success">Contato</button>
+			<button type="button" class="btn btn-success">Quem Somos</button>
+			<button type="button" class="btn btn-success">Cadastro</button>
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Entrar<span class="caret"></span></button>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							<h4 class="modal-title" id="myModalLabel">Logon</h4>
+						</div>
+						<div class="modal-body">
+							<!--FOrmulario-->
+							<ul>
+								<form  class="form-vertical">
+									<div class="control-group">
+										<label class="control-label" for="inputEmail">Login</label>
+										<div class="controls">
+											<input id="inputEmail" type="text" placeholder="Digite o seu e-mail..." autofocus />
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label" for="inputPassword">Senha</label>
+										<div class="controls">
+											<input id="inputPassword" type="password" placeholder="Digite a sua senha..." />
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+											<label class="checkbox"><input type="checkbox" /> Lembrar senha</label>
+											<button class="btn btn-danger " type="submit" data-dismiss="modal">Acessar</button>
+										</div>
+									</div>
+								</form>
+							</ul>
+							<!---->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--FOrmulario-->
+		<ul>
+			<div class ="cadastro">
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Nome do Evento</label>
+						<div class="controls">
+							<input id="inputNome" type="text" placeholder="Digite o nome do evento..." autofocus />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">Banner</label>
+						<div class="controls">
+							<input id="inputBanner" type='file' accept="image/*" placeholder="Selecione o Banner..." />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Data Inicio </label>
+						<div class="controls">
+							<input id="inputInicio" type="date" placeholder="Data de inicio do evento..."  />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Data Fim </label>
+						<div class="controls">
+							<input id="inputFim" type="date" placeholder="Data de fim do evento..." />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Data Descrição </label>
+						<div class="controls">
+							<textarea id='descricaoEvento' name='descricaoEvento'></textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Nome do Responsavel </label>
+						<div class="controls">
+							<input id='nomeResonsavel' name='nomeResponsavel' type='text'   >
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Matricula </label>
+						<div class="controls">
+							<input id="inputMatricula" type="date" placeholder="Insira seu numero de matricula ou SIAPE..."  />
+						</div>
+					</div>
+				</form>
+				<!--Atividades-->
+				<p> Defina suas atividades abaixo: </p>
+				<ul>
+					<form id='activ'>
+						<fieldset>
+							<div class='cronograma' style='width 194px; padding:12px; border: 1px solid black;text-align:left'> 
+								<div class='control-group'>
+									<label class='control-label' for='nomeAtividade'>Nome da Atividade</label>
+									<div class='controls'>
+										<input id='nomeAtividade' name='nomeAtividade' type='text'  >
+									 </div>
+								</div>
+								<div class='control-group'>
+									  <label class='control-label' for='dataAtividade'>Data </label>
+									  <input id='dataAtividade' type='date'>
+								</div>
+								<div class='control-group'>
+									<label class='control-label' for='descricaoAtividade'>Descrição</label>
+									<div class='controls'>
+										<textarea id='descricaoAtividade' name='descricaoAtividade'></textarea>
+									</div>
+								</div>
+								<div >
+									<label  for='buttonDepartamento'>Departamento</label>
+									<div class='controls'>
+										<select>
+											<option value='volvo'>Volvo</option>
+											<option value='saab'>Saab</option>
+											<option value='mercedes'>Mercedes</option>
+											<option value='audi'>Audi</option>
+										</select>
+									</div>
+								</div>
+								<div >
+									<label  for='buttonDepartamento'>Instalação</label>
+									<div>
+										<select>
+											<option value='volvo'>Volvo</option>
+											<option value='saab'>Saab</option>
+											<option value='mercedes'>Mercedes</option>
+											<option value='audi'>Audi</option>
+										</select>
+									</div>
+								</div>
+						</fieldset>
+					</form>
+				</ul>
+				<button type='button' id='add_button'>Adicionar uma Nova Atividade</button>
+				<button id="enviarCadastroEvento" name="enviarCadastroEvento">Concluir Cadastro</button>
+			</div>	
+		</ul>
+	</body>
+</html>
