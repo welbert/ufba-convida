@@ -727,7 +727,7 @@
             <div class="row">
                 <div class="footer-col col-md-4">
                     <h3>UFBA CONVIDA</h3>
-                    <p>Desenvolvido para o trabalho da disciplina de Bancos de Dados - 2014.2</p>
+                    <p>Desenvolvido para o trabalho da disciplina de Engenharia de Software II - 2014.2</p>
                 </div>
                 <div class="footer-col col-md-4">
                     <ul class="list-inline">
