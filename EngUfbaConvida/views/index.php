@@ -711,7 +711,7 @@
                 <p>Nosso Objetivo:<br> Centralizar as informações sobre eventos que ocorrem na UFBA - Salvador.</p>
             </div>
             <div class="col-lg-4">
-                <p>Autores do trabalho: Amanda Sotero, Ive Andresson, Dennis Lessa, Euler Santana e Glauber Félix.</p>
+                <p>Desenvolvimento continuado por: Amanda Sotero, Ive Andresson, Monira Silva, Jadson Mergulhão e Welbert Serra.</p>
             </div>
             
         </div>
