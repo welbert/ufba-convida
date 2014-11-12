@@ -45,7 +45,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 
         <!-- Tema padrao-->
-        <!--        <link rel="stylesheet" href="css/bootstrap-theme.css">-->
+        <!-- <link rel="stylesheet" href="css/bootstrap-theme.css">-->
         <script src="js/jquery.js"></script>
         <!-- <link rel="stylesheet" href="css/slideShow.css">-->
         
@@ -76,9 +76,9 @@
 
             function mudaNome(valor) {
                 if (valor.value == "professor") {
-                    document.getElementById("legLabel").innerHTML = "SEAPE"
+                    document.getElementById("legLabel").innerHTML = "SIAPE"
                 } else{
-                    document.getElementById("legLabel").innerHTML = "Matricula"
+                    document.getElementById("legLabel").innerHTML = "Matrícula"
 
                 };
             }
@@ -107,7 +107,7 @@
                     <a class="navbar-brand" href="#page-top">UFBA ConVida</a>
                 </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
+                <!-- Links da barra de navegação-->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
 
@@ -118,35 +118,53 @@
                         <li class="page-scroll">
                             <a href="#portfolio">Acontece Hoje</a>
                         </li>
-                    
-                        <li class="page-scroll">
+
+                       <!-- Tratamento de Sessão, se estiver logado, aparece a opção de publicar evento--> 
+                       <!-- Caso contrário, aparece a opção de cadastro de usuário--> 
+                        <?php if (!isset($_SESSION['id'])): ?> <!-- se não existir uma sessão-->
+                            <li class="page-scroll">
                                 <a href="#cadastroUser">Cadastre-se</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['id'])): ?> <!--se existir uma sessão-->
+                            <li class="page-scroll">
+                                <a href="#cadastroEvento">Publique seu Evento</a>
+                            </li>
+                        <?php endif; ?>
+                        <!-- FIM tratamento de Sessão-->
+
+                        <li class="page-scroll">
+                            <a href="#about">Quem Somos</a>
                         </li>
-                    
-
                         
+                        <!--LOGOUT e LOGIN-->
+                        <?php if (isset($_SESSION['id'])): ?>
+                        <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a></li>
+                        <?php else: ?>
+                        <li class="active"><a type="button" class="btn "  data-toggle="modal" data-target="#myModal">Entrar<span class="caret"></span></a></li>
+                        <?php endif; ?>
 
-                    <?php ?>
-                    <li class="active"><a type="button" class="btn "  data-toggle="modal" data-target="#myModal">Entrar  <span class="caret"></span></a></li>
 
-                <?php endif; ?>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Login</h4>
-                            </div>
-                            <div class="modal-body">
-                                <!--Entrar-->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Login</h4>
+                                </div>
+                                <div class="modal-body">
+                                
+                                <!-- FORM para LOGIN-->
                                 <ul>
                                     <form action="?rt=academico/login" method="post" class="form-vertical">
                                         <div class="control-group">
-                                            <label class="control-label" id="legLabel" for="inputEmail">Matricula</label>
+                                            <label class="control-label" id="legLabel" for="inputEmail">Matrícula</label>
                                             <div class="controls">
-                                                <input id="login" name="login" type="text" placeholder="Matrícula ou Siape" autofocus />
+                                                <input id="login" name="login" type="text" placeholder="ma" autofocus />
                                             </div>
                                         </div>
+                                        
                                         <div class="control-group">
                                             <label class="control-label" for="inputPassword">Senha</label>
                                             <div class="controls">
@@ -178,20 +196,13 @@
     <!-- /.container-fluid -->
 </nav>
 
-<header  style="height=300px;">
-    
-    
+
+<header>
+
     <!-- Busca Home -->
-    <div class="container" align="center">
+    <div class="container">
 
-
-        <div id="imgheader"  style="margin-top:-100px;">
-        <img class="img-responsive" src="img/whitelogoUFBAConVida.png" alt="">
-    </div>
-
-
-            
-       <form class="form-inline" action="?rt=evento/busca" method="get">
+        <form class="form-inline" action="?rt=evento/busca" method="get">
 
             <!--Busca Livre-->
             <div class="form-group span6">
@@ -215,6 +226,9 @@
                                 <p>Campus</p>
                                 <select name="campus" class="busca-avancada-input control-group">
                                     <option value="0">Campus</option>
+                                    <?php foreach($campus as $campi) { ?>
+                                    <option value="<?php echo $campi['codigo']; ?>"><?php echo $campi['nome']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
@@ -224,7 +238,9 @@
                                 <p>Instalação</p>
                                 <select name="instalacao" class="busca-avancada-input">
                                     <option value="0">Instalação</option>
-                            
+                                    <?php foreach($instalacoes as $instalacao) { ?>
+                                    <option value="<?php echo $instalacao['localidade_id']; ?>"><?php echo $instalacao['predio']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
@@ -235,7 +251,9 @@
                                 <p>Departamento</p>
                                 <select name="departamento" class="busca-avancada-input">
                                     <option value="0">Departamento</option>
-                            
+                                    <?php foreach($departamentos as $departamento) { ?>
+                                    <option value="<?php echo $departamento[0]; ?>"><?php echo utf8_encode($departamento[1]); ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
@@ -278,79 +296,74 @@
 
 
 <!-- Portfolio Grid Section -->
-    <section id="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Acontece Hoje</h2>
-                    <hr class="star-primary">
+<section id="portfolio">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Acontece Hoje</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($listaEventos as $evento){ ?>
+            <div class="col-sm-4 portfolio-item">
+                <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive" alt="">
+                </a>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>  
+
+<?php  foreach ($listaEventos as $evento){ ?>
+    <div class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2><?= $evento['titulo']; ?></h2>
+                            <hr class="star-primary">
+                            <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive img-centered" alt="">
+                            <p><?= $evento['descricao']; ?></p>
+                            
+                            <ul class="list-inline item-details">
+                                <li>Link
+                                    <strong><a href="#<?=$evento['link']?>" target="_blank">Clique aqui</a>
+                                    </strong>
+                                </li>
+                                <li>Data do evento
+                                    <strong><a href="#"><?=substr($evento['inicio'], 0, 10); ?></a>
+                                    </strong>
+                                </li>
+                                <li>Fim
+                                    <strong><a href="#"><?=substr($evento['fim'], 0, 10); ?></a>
+                                    </strong>
+                                </li>
+                            </ul>
+                        
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
-                        <img src="img/portfolio/cabin.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/cake.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/circus.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/game.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/safe.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/submarine.png" class="img-responsive" alt="">
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+<?php } ?>
 
+<?php if (!isset($_SESSION['id'])): ?>    
     <!-- Cadastro de User -->
     <section id="cadastroUser">
         <div class="container">
@@ -463,6 +476,13 @@
                            </div>
 
 
+                           <?php
+                           if(isset($mensagem)) {
+                            echo $mensagem;
+                            }
+                            ?>
+
+                <?php endif; ?>
                      </form>
                 </div> <!--fim div id= formulario novo user-->
 
@@ -471,6 +491,232 @@
 
 
 
+<!--Denis ficou de mexer nisso.. para quando o user estiver logado, ao invés de Cadastre-se,
+                         botar o Publique Seu Evento-->
+<!-- Cadastro Evento -->
+<?php  ?>
+    <section id="cadastroEvento">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Publique seu Evento</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+
+            <div class="row" >
+
+                <div class="col-lg-8 col-lg-offset-2">
+                
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+                    
+                <div id="form_novo_evento">
+                <form method="post" enctype="multipart/form-data" action="?rt=index/addEvento">
+
+
+                <div class="row control-group" style="width:250px">
+                    <fieldset>
+                        <label>Nome do evento</label>
+                        <input class="form-control" type="text" name="titulo_evento"/>
+                    </fieldset>
+                </div>
+                <br>
+                    
+                <div class="row control-group" style="width:350px">
+                    <fieldset>
+                        <label>Cartaz</label>
+                        <input class="form-control" type="file" name="cartaz_evento"/>
+                    </fieldset>
+                </div>
+
+                <br>
+
+                <div class="row control-group" style="width:250px">    
+                    <fieldset>
+                        <label>Link</label>
+                        <input class="form-control" type="text" name="link_evento"/>
+                    </fieldset>
+                </div>
+
+                <br>
+                    
+                <div class="row control-group" style="width:250px">
+                    <fieldset>
+                        <label>Data de inicio</label>
+                        <input class="form-control" type="date" name="data_inicio_evento"/>
+                    </fieldset>
+                </div>
+
+                <br>
+
+                <div class="row control-group" style="width:250px">
+                    <fieldset>
+                        <label>Data de termino</label>
+                        <input class="form-control" type="date" name="data_fim_evento"/>
+                    </fieldset>
+                </div>
+
+                <br>
+
+                <div class="row control-group" style="width:250px;">
+                    <fieldset>
+                        <label>Descrição</label>
+                        <textarea class="form-control" name="descricao_evento"></textarea>
+                    </fieldset>
+                </div>
+                    
+                    <!-- 
+                      --
+                      -- FORMULARIO DE ATIVIDADES
+                      --
+                      -->
+                    
+                    <h2>Atividades</h2>
+                    
+                    <div id="data_atividade">
+                        <div id="form_atividades">
+                            <hr/>
+                            
+                        <div class="row control-group" style="width:250px">
+                            <fieldset>
+                                <label>Data da atividade</label>
+                                <input class="form-control" type="date" name="data_atividade[]"/>
+                            </fieldset>
+                        </div>
+                            
+                        <br>
+
+                        <div class="row control-group" style="width:250px">
+                            <fieldset>
+                                <label>Titulo da atividade</label>
+                                <input class="form-control" type="text" name="titulo_atividade[]"/>
+                            </fieldset>
+                        </div>
+                            
+                        <br>
+                            
+                        <div class="row control-group" style="width:250px">
+                            <fieldset>
+                                <label>Horário da atividade</label>
+                                <input class="form-control" type="time" name="horario_atividade[]"/>
+                            </fieldset>
+                        </div>
+
+                        <br>
+
+                        <div class="row control-group" style="width:250px">
+                            <fieldset>
+                                <label>Descrição da atividade</label>
+                                <textarea class="form-control" name="descricao_atividade[]"></textarea>
+                            </fieldset>
+                        </div>
+
+                        <br>
+
+                        <div class="row control-group" style="width:250px">
+                            <label>Local</label>
+                                
+                            <fieldset>
+                                <select name="instalacao_evento" size="10">
+                                    <optgroup label="CAMPUS">
+                                    <?php
+                                        foreach($todos_campus as $campi) {
+                                    ?>
+                                    <option value="<?php echo $campi['codigo']; ?>"><?php echo $campi['nome']; ?></option>
+                                    <?php } ?>
+                                    </optgroup>
+                                    
+                                    <optgroup label="INSTALAÇÃO">
+                                    <?php
+                                        foreach($instalacoes as $instalacao) {
+                                    ?>
+                                    <option value="<?php echo $instalacao['localidade_id']; ?>"><?php echo $instalacao['predio']; ?></option>
+                                    <?php } ?>
+                                    </optgroup>
+                                    
+                                    <optgroup label="DEPARTAMENTO">
+                                    <?php
+                                        foreach($departamentos as $departamento) {
+                                    ?>
+                                    <option value="<?php echo $departamento['codigo']; ?>"><?php echo $departamento['nome']; ?></option>
+                                    <?php } ?>
+                                    </optgroup>
+                                </select>
+                            </fieldset>
+                        </div>
+                            <hr/>
+                        </div>
+                        
+                        <div id="novas_atividades"></div>
+                    </div>
+                    
+                    <input class="btn " type="button" value="Adicionar Atividade" onclick="add_atividade();"/>
+                    
+                    <!-- 
+                      --
+                      -- FORMULARIO DE APOIADORES
+                      --
+                      -->
+                    
+                    <br/>
+
+                    <h2>Apoiadores</h2>
+                    <div id="apoiadores">
+                        <div id="form_apoiadores">
+                            <hr/>
+                        
+                        <div class="row control-group" style="width:250px">
+                            <fieldset>
+                                <label>Nome do apoiador</label>
+                                <input class="form-control" type="text" name="nome_apoiador[]"/>
+                            </fieldset>
+                        </div>
+                        <br>
+                        <div class="row control-group" style="width:350px">
+                            <fieldset>
+                                <label>Imagem do apoiador</label>
+                                <input class="form-control" type="file" name="imagem_apoiador[]"/>
+                            </fieldset>
+                        </div>
+                            <hr/>
+                        </div>
+                        
+                        <div id="novos_apoiadores"></div>
+                    </div>
+                    <div class="row control-group">
+                        <input  class="btn " type="button" value="Adicionar Apoiador" onclick="add_apoiador();"/><br/><hr/>
+                        <input class="btn btn-success btn-lg" type="submit" value="Cadastrar Evento"/>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php  ?>
+
+<!-- About Section -->
+<section class="success" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Quem Somos</h2>
+                <hr class="star-light">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-2">
+                <p>Nosso Objetivo:<br> Centralizar as informações sobre eventos que ocorrem na UFBA - Salvador.</p>
+            </div>
+            <div class="col-lg-4">
+                <p>Autores do trabalho: Amanda Sotero, Ive Andresson, Dennis Lessa, Euler Santana e Glauber Félix.</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
 
 
 
@@ -481,7 +727,7 @@
             <div class="row">
                 <div class="footer-col col-md-4">
                     <h3>UFBA CONVIDA</h3>
-                    <p>2014.2</p>
+                    <p>Desenvolvido para o trabalho da disciplina de Bancos de Dados - 2014.2</p>
                 </div>
                 <div class="footer-col col-md-4">
                     <ul class="list-inline">
@@ -503,7 +749,7 @@
                     </ul>
                 </div>
                 <div class="footer-col col-md-4">
-                    <p>Sistema de Divulgação de Eventos<br>Universidade Federal da Bahia <br>Salvador</p>
+                    <p>Sistema de Divulgação de Eventos<br>Universidade Federal da Bahia <br>Salvador - 2014.</p>
                 </div>
             </div>
         </div>

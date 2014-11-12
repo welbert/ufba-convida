@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,29 +28,18 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <!-- ufba home -->
+
+        <!-- MODIFICADO  -->
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <!--<link href="css/datepicker.css" rel="stylesheet">-->
         <link rel="stylesheet" type="text/css" href="css/style.css">
         
-        <!-- Tema padrao-->
         <script src="js/jquery.js"></script>
-        <link rel="stylesheet" href="css/slideShow.css">
-        
         <script src="js/bootstrap.min.js"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-        <!-- Tema padrao-->
-        <!--        <link rel="stylesheet" href="css/bootstrap-theme.css">-->
-        <script src="js/jquery.js"></script>
-        <!-- <link rel="stylesheet" href="css/slideShow.css">-->
-        
         <script src="js/formulario.js"></script>
-
         <script src="js/cadastroAcademico.js"></script>
-        <!--<link rel="stylesheet" type="text/css" href="cadastroAcademico.css">-->
-
 
         <script type="text/javascript">
             function add_atividade() {
@@ -84,14 +70,13 @@
             }
         </script>
 
-
     </head>
 
     <body id="page-top" class="index">
 
-        <script src="js/bootstrap.min.js"></script>
         <script src="js/cadastroUsuario.js"></script>
         <script src="js/hideBuscaAvancada.js"></script>
+
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -116,45 +101,35 @@
                         </li>
 
                         <li class="page-scroll">
-                            <a href="#portfolio">Acontece Hoje</a>
+                            <a href="#campus">Campus</a>
                         </li>
-                        
                         <li class="page-scroll">
-                                <a href="#cadastroEvento">Publique seu Evento</a>
+                            <a href="#instalacao">Instalação</a>
                         </li>
-                        
-                      
-                        <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a></li>
+                        <li class="page-scroll">
+                            <a href="#departamento">Departamento</a>
+                        </li>
+                        <li class="page-scroll">
+                            <a href="#user">Usuário</a>
+                        </li>
+                        <li class="page-scroll">
+                            <a href="#cadastroEvento">Evento</a>
+                        </li>
 
-                        
-                        </ul>
-                                <!---->
-                            </div>
-                        </div>
-                    </div>
+
+                    </ul>
                 </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
 
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
+<header>
 
-<header  style="height=300px;">
-    
-    
     <!-- Busca Home -->
-    <div class="container" align="center">
+    <div class="container">
 
-
-        <div id="imgheader"  style="margin-top:-100px;">
-        <img class="img-responsive" src="img/whitelogoUFBAConVida.png" alt="">
-    </div>
-
-
-            
-       <form class="form-inline" action="?rt=evento/busca" method="get">
+        <form class="form-inline" action="index.php?action=search" method="get">
 
             <!--Busca Livre-->
             <div class="form-group span6">
@@ -178,7 +153,9 @@
                                 <p>Campus</p>
                                 <select name="campus" class="busca-avancada-input control-group">
                                     <option value="0">Campus</option>
-                                    
+                                    <?php foreach($campus as $campi) { ?>
+                                    <option value="<?php echo $campi['codigo']; ?>"><?php echo $campi['nome']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
@@ -187,18 +164,24 @@
                             <fieldset>
                                 <p>Instalação</p>
                                 <select name="instalacao" class="busca-avancada-input">
-                                    
+                                    <option value="0">Instalação</option>
+                                    <?php foreach($instalacoes as $instalacao) { ?>
+                                    <option value="<?php echo $instalacao['localidade_id']; ?>"><?php echo $instalacao['predio']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
 
+                   
                        <div class="row control-group" align="center" style="float:left; margin-right:5px;margin-left:5px;">
                             <fieldset>
 
                                 <p>Departamento</p>
                                 <select name="departamento" class="busca-avancada-input">
                                     <option value="0">Departamento</option>
-                                    
+                                    <?php foreach($departamentos as $departamento) { ?>
+                                    <option value="<?php echo $departamento[0]; ?>"><?php echo utf8_encode($departamento[1]); ?></option>
+                                    <?php } ?>
                                 </select>
                             </fieldset>
                         </div>
@@ -239,83 +222,126 @@
 
 </header>
 
+        <!-- Portfolio Grid Section -->
+        <section id="campus">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Campus</h2>
+                        <hr class="star-primary">
+                    </div>
+                </div>
+                <div style="width:250px" class="row">
 
-<!-- Portfolio Grid Section -->
-    <section id="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Acontece Hoje</h2>
-                    <hr class="star-primary">
+                    <form action="?rt=root/campus" method="post">
+                        <label>Endreço: </label></br>
+                        <input class="form-control" type="text" name="endereco" id="endereco"/></br>
+                        <label>Nome</label></br>
+                        <input class="form-control" type="text" name="nome" id="nome"/></br>
+                        <label>Código</label></br>
+                        <input class="form-control" type="text" name="codigo" id="codigo"/></br>
+                        <input class="btn btn-success btn-lg" type="submit" value="Cadastrar"/>
+                    </form>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/cabin.png" class="img-responsive" alt="">
-                    </a>
+        </section>
+
+
+
+        <!-- Contact Section -->
+        <section id="instalacao">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Instalação</h2>
+                        <hr class="star-primary">
+                    </div>
                 </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/cake.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/circus.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/game.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/safe.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/submarine.png" class="img-responsive" alt="">
-                    </a>
-                </div>
+                <div class="row" style="width:250px">
+
+                    <form action="?rt=root/instalacao" method="post">
+                        <label>Endreco: </label></br>
+                        <input class="form-control" type="text" name="endereco" id="endereco"/></br>
+                        <label>Instalacao</label></br>
+                        <input class="form-control" type="text" name="instalacao" id="instalacao"/></br>
+                        <label>Campus</label></br>
+
+                        <select name="campus">
+                            <?php 
+                            foreach ($campus as $val) {
+                                echo '<option value="'.$val['codigo'].'">'.$val['nome'].'</option>';
+                            } 
+                            ?>
+                        </select>
+                    </br>
+                    <br>
+                    <input class="btn btn-success btn-lg" type="submit" value="Cadastra"/>
+                </form>
+
             </div>
         </div>
     </section>
 
-<!-- Cadastro Evento -->
 
+    <!-- Portfolio Grid Section -->
+    <section id="departamento">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Departamento</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row" style="width:250px">
+
+                <form action="?rt=root/addDepartamento" method="post">
+                <label>Instalacao </label></br>
+                <select name="instalacao">
+                    <?php 
+
+                    foreach ($instalacoes as $val) {
+                        echo '<option value="'.$val['localidade_id'].'">'.$val['predio'].'</option>';
+                    } 
+                    ?>
+                </select></br>
+                <label>Nome</label></br>
+                <input class="form-control" type="text" name="nome" id="nome"/></br>
+
+                <input class="btn btn-success btn-lg" type="submit" value="Cadastra"/>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="user">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Usuário</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row" style="width:250px">
+
+            <form action="?rt=root/addUser" name="user" method="post">
+                <label>Login:</label>
+                <input class="form-control" type="text" name="login" />
+                <label>Senha:</label>
+                <input class="form-control" type="password" name="senha" />
+                <br>
+                <input class="btn btn-success btn-lg" type="submit" value="Cadastra"/>
+            </form>
+
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Cadastro Evento -->
+<?php  ?>
     <section id="cadastroEvento">
         <div class="container">
 
@@ -442,15 +468,27 @@
                             <fieldset>
                                 <select name="instalacao_evento" size="10">
                                     <optgroup label="CAMPUS">
-                                    
+                                    <?php
+                                        foreach($todos_campus as $campi) {
+                                    ?>
+                                    <option value="<?php echo $campi['codigo']; ?>"><?php echo $campi['nome']; ?></option>
+                                    <?php } ?>
                                     </optgroup>
                                     
                                     <optgroup label="INSTALAÇÃO">
-                                    
+                                    <?php
+                                        foreach($instalacoes as $instalacao) {
+                                    ?>
+                                    <option value="<?php echo $instalacao['localidade_id']; ?>"><?php echo $instalacao['predio']; ?></option>
+                                    <?php } ?>
                                     </optgroup>
                                     
                                     <optgroup label="DEPARTAMENTO">
-                                    
+                                    <?php
+                                        foreach($departamentos as $departamento) {
+                                    ?>
+                                    <option value="<?php echo $departamento['codigo']; ?>"><?php echo $departamento['nome']; ?></option>
+                                    <?php } ?>
                                     </optgroup>
                                 </select>
                             </fieldset>
@@ -507,7 +545,6 @@
 <?php  ?>
 
 
-
 <!-- Footer -->
 <footer class="text-center">
     <div class="footer-above">
@@ -515,7 +552,7 @@
             <div class="row">
                 <div class="footer-col col-md-4">
                     <h3>UFBA CONVIDA</h3>
-                    <p>2014.2</p>
+                    <p>Desenvolvido para o trabalho da disciplina de Bancos de Dados - 2014.2</p>
                 </div>
                 <div class="footer-col col-md-4">
                     <ul class="list-inline">
@@ -537,7 +574,7 @@
                     </ul>
                 </div>
                 <div class="footer-col col-md-4">
-                    <p>Sistema de Divulgação de Eventos<br>Universidade Federal da Bahia <br>Salvador</p>
+                    <p>Sistema de Divulgação de Eventos<br>Universidade Federal da Bahia <br>Salvador - 2014.</p>
                 </div>
             </div>
         </div>
@@ -555,11 +592,9 @@
 
 
 
-<!-- jQuery -->
 
+<!-- jQuery -->
 <script src="js/jquery.js"></script>
-<!--<script src="js/bootstrap-datepicker.js"></script>-->
-<!--<script src="js/datepicker-source.js"></script>-->
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
@@ -575,8 +610,6 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="js/freelancer.js"></script>
-
-
 
 </body>
 
