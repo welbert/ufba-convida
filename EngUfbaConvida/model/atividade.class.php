@@ -28,8 +28,9 @@ class Atividade {
 	
 	public function atualizar() { }
 	
-	public function selecionar() {
-	}
+	public function selecionaTodas(){
+        return "select * from ".self::$tabela;
+    }
 	
 	//*************************************************************************
 	//*************************************************************************

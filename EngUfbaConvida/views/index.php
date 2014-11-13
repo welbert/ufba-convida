@@ -147,7 +147,7 @@
 
 
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" style="width:350px;">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
@@ -158,19 +158,6 @@
                                 <!-- FORM para LOGIN-->
                                 <ul>
                                     <form action="?rt=academico/login" method="post" class="form-vertical">
-                                        <div class="control-group">
-                                            <label class="control-label" id="legLabel" for="inputEmail">Matrícula</label>
-                                            <div class="controls">
-                                                <input id="login" name="login" type="text" placeholder="ma" autofocus />
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="control-group">
-                                            <label class="control-label" for="inputPassword">Senha</label>
-                                            <div class="controls">
-                                                <input id="senha" name="senha" type="password" placeholder="Digite a sua senha..." />
-                                            </div>
-                                        </div>
                                         <div >
                                             <label  for='buttonConta'>Conta</label>
                                             <div class='controls'>
@@ -179,8 +166,23 @@
                                                     <option value='professor'>Professor</option>
                                                 </select>
                                             </div>
-                                        </div><br/>
-                                        <input type="submit" value="Entrar"/>
+                                            <br/>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" id="legLabel" for="inputEmail">Matrícula</label>
+                                            <div class="controls">
+                                                <input id="login" name="login" type="text" placeholder="Matricula ou Siape" autofocus />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputPassword">Senha</label>
+                                            <div class="controls">
+                                                <input id="senha" name="senha" type="password" placeholder="Digite a sua senha" />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <input type="submit" class="btn btn-success btn-lg" value="Entrar"/>
                                     </form>
                                 </ul>
                                 <!---->
@@ -201,6 +203,11 @@
 
     <!-- Busca Home -->
     <div class="container">
+
+        <div id="imgheader"  style="margin-top:-100px;">
+            <img class="img-responsive" src="img/whitelogoUFBAConVida.png" alt="">
+        </div>
+        
 
         <form class="form-inline" action="?rt=evento/busca" method="get">
 
@@ -317,13 +324,14 @@
                 </a>
             </div>
             <?php } ?>
-        </div>
+
+         </div>
     </div>
 </section>  
 
 <?php  foreach ($listaEventos as $evento){ ?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
+    <div  class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content" >
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
                     <div class="rl">
@@ -333,7 +341,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
+                        <div class="modal-body" style="margin-top:-150px;">
                             <h2><?= $evento['titulo']; ?></h2>
                             <hr class="star-primary">
                             <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive img-centered" alt="">
@@ -344,17 +352,36 @@
                                     <strong><a href="#<?=$evento['link']?>" target="_blank">Clique aqui</a>
                                     </strong>
                                 </li>
-                                <li>Data do evento
+                                <li>Início do Evento:
                                     <strong><a href="#"><?=substr($evento['inicio'], 0, 10); ?></a>
                                     </strong>
                                 </li>
-                                <li>Fim
+                                <li>Fim do Evento:
                                     <strong><a href="#"><?=substr($evento['fim'], 0, 10); ?></a>
                                     </strong>
                                 </li>
                             </ul>
-                        
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            
+                        <div align="center" style="float:left; width:100%; margin-bottom:30px;">
+                            <h2>Atividades do Evento</h2>
+                                <hr class="star-primary">
+
+                            <ul>
+                              <?php
+                                foreach ($listaAtividades as $atividade){ 
+                                    if ($atividade['evento_id'] == 1){
+                                        ?>
+                                        <ul align="left" style="float:left; margin-left:20px; margin-right:20px;">
+                                        <h5><strong>Atividade:</strong></h5><?=$atividade['titulo'];?><br>
+                                        <h5><strong>Data:</strong> </h5><?=$atividade['data'];?><br>
+                                        <h5><strong>Hora:</strong> </h5><?=$atividade['horario'];?><br>
+                                        <h5><strong>Descrição:</strong> </h5><?=$atividade['descricao'];?><br>
+                                        </ul>
+                              <?php }}?>
+                            </ul>
+                        </div>
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
                 </div>
@@ -362,6 +389,8 @@
         </div>
     </div>
 <?php } ?>
+
+
 
 <?php if (!isset($_SESSION['id'])): ?>    
     <!-- Cadastro de User -->
@@ -711,7 +740,7 @@
                 <p>Nosso Objetivo:<br> Centralizar as informações sobre eventos que ocorrem na UFBA - Salvador.</p>
             </div>
             <div class="col-lg-4">
-                <p>Desenvolvimento continuado por: Amanda Sotero, Ive Andresson, Monira Silva, Jadson Mergulhão e Welbert Serra.</p>
+                <p>Desenvolvimento continuado por: Amanda Sotero, Ive Andresson, Monira Silva, Welbert Serra e Jadson Mergulhão.</p>
             </div>
             
         </div>
@@ -740,12 +769,7 @@
                         <li>
                             <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
                         </li>
-                        <li>
-                            <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="footer-col col-md-4">

@@ -141,8 +141,12 @@ Class eventoController Extends baseController {
 			}
 
 			$this->registry->template->listaEventos = $busca;
+			
 		}
 		$this->registry->template->show('index');
 	}
+
+
+
 
 ?>

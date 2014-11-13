@@ -88,22 +88,20 @@ Class academicoController Extends baseController {
 				$condicao = "siape = '".$professor->getSiape()."' and senha = '".$professor->getSenha()."'";
 				$query  = $professor->selecionarProfessor($condicao);
 
-				$professor_logado = db::getInstance()->query($query);
-
+				foreach (db::getInstance()->query($query) as $row){
+					$professor_logado = $row;
+				}
 				
-					foreach (db::getInstance()->query($query) as $row){
-						$professor_logado = $row;
-					}
 				
 				if (isset($professor_logado)) {
-
 					$_SESSION['id']     = $professor_logado['academico_id'];
 					$_SESSION['siape'] 	= $professor_logado['siape'];
 
 
 					$this->registry->template->mensagem = "Login feito com sucesso.";
 				}else{
-					$this->registry->template->mensagem = "Usuario não encontrado.";
+					#$this->registry->template->mensagem = "Usuario não encontrado.";
+					echo "<script> alert('Siape ou Senha incorretos. Tente Novamente.');</script>";
 				}
 			}
 			elseif (isset($aluno)) {
@@ -111,20 +109,15 @@ Class academicoController Extends baseController {
 				$aluno->setMatricula($_POST['login']);
 				$aluno->setSenha($_POST['senha']);
 
-				$condicao = "matricula = ".$aluno->getMatricula()." and senha = ".$aluno->getSenha();
+				$condicao = "matricula =' ".$aluno->getMatricula()." ' and senha = '".$aluno->getSenha()."'";
 				$query  = $aluno->selecionarAluno($condicao);
 
-				$aluno_logado = null;
-
+			
 				foreach (db::getInstance()->query($query) as $row){
 					$aluno_logado = $row;
 				}
 
 				
-				
-				
-
-
 				if (isset($aluno_logado)) {
 					$_SESSION['id']     = $aluno_logado['academico_id'];
 					$_SESSION['matricula'] 	= $aluno_logado['matricula'];
@@ -133,7 +126,8 @@ Class academicoController Extends baseController {
 				}
 				else
 				{
-					$this->registry->template->mensagem = "Usuario nao encontrado.";
+					#$this->registry->template->mensagem = "Usuario nao encontrado.";
+					echo "<script> alert('Matrícula ou Senha incorretos. Tente Novamente.');</script>";
 				}
 			}
 

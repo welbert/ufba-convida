@@ -13,14 +13,14 @@ class Evento {
     
     public function add() {
         $sql = "insert into ".self::$tabela." (titulo, cartaz, link, inicio, fim, descricao, academico_id)
-        		values ('".$this->titulo."', '".$this->cartaz."', '".$this->link."', '".$this->inicio."',
-        		'".$this->fim."', '".$this->descricao."', ".$this->academicoId.")";
+                values ('".$this->titulo."', '".$this->cartaz."', '".$this->link."', '".$this->inicio."',
+                '".$this->fim."', '".$this->descricao."', ".$this->academicoId.")";
         
         return $sql;
     }
     
     public function delete() {
-    	$sql = "delete from ".self::$tabela." where id = ".$this->id;
+        $sql = "delete from ".self::$tabela." where id = ".$this->id;
     }
     
     public function selecionaTodos(){
@@ -88,10 +88,10 @@ class Evento {
     }
     
     function setLink($newLink) {
-    	$this->link = $newLink;
+        $this->link = $newLink;
     }
     
     function getLink() {
-    	return $this->link;
+        return $this->link;
     }
 }
