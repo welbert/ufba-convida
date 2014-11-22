@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         
         <!-- Tema padrao-->
-        <script src="js/jquery.js"></script>
+        <!--<script src="js/jquery.js"></script>-->
         <link rel="stylesheet" href="css/slideShow.css">
         
         <script src="js/bootstrap.min.js"></script>
@@ -84,8 +81,17 @@
             }
         </script>
 
+        <script>
+        function validarSenha(form){
+            senha = document.f1.senha.value
+            repete_senha = document.f1.repete_senha.value
 
-    </head>
+            if (senha != repete_senha)
+                alert("Confirmação de Senha Inválida!")
+           }
+        </script>
+
+      </head>
 
     <body id="page-top" class="index">
 
@@ -119,6 +125,10 @@
                             <a href="#portfolio">Acontece Hoje</a>
                         </li>
 
+                        <li class="page-scroll">
+                            <a href="#portfolioProximo">Eventos Próximos</a>
+                        </li>
+
                        <!-- Tratamento de Sessão, se estiver logado, aparece a opção de publicar evento--> 
                        <!-- Caso contrário, aparece a opção de cadastro de usuário--> 
                         <?php if (!isset($_SESSION['id'])): ?> <!-- se não existir uma sessão-->
@@ -140,7 +150,9 @@
                         
                         <!--LOGOUT e LOGIN-->
                         <?php if (isset($_SESSION['id'])): ?>
-                        <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a></li>
+                        <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a>
+                        </li>
+
                         <?php else: ?>
                         <li class="active"><a type="button" class="btn "  data-toggle="modal" data-target="#myModal">Entrar<span class="caret"></span></a></li>
                         <?php endif; ?>
@@ -302,27 +314,48 @@
 </header>
 
 
-<!-- Portfolio Grid Section -->
+<!-- Acontece hoje lista os eventos que ocorrem: efetivamente na data atual e que ainda não aconteceram (pelo horário) -->
 <section id="portfolio">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>Acontece Hoje</h2>
+                  <p><?php echo date('d/m/Y'); ?></p>
                 <hr class="star-primary">
             </div>
         </div>
         <div class="row">
             <?php foreach ($listaEventos as $evento){ ?>
-            <div class="col-sm-4 portfolio-item">
-                <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
-                    <div class="caption">
-                        <div class="caption-content">
-                            <i class="fa fa-search-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive" alt="">
-                </a>
-            </div>
+                        
+                    <?php  date_default_timezone_set('America/Bahia');
+
+                    foreach ($listaAtividades as $atividade){ 
+
+                        if ($atividade['evento_id'] == $evento['id']){
+                         
+                         $horaAtividade = $atividade['horario'];
+                         $horaLocal = date('H:i:00');
+                         $dataAtividade = $atividade['data'];
+                         $data2= date('Y-m-d');
+
+                         //Eventos na Data atual
+                         if ( strcmp($dataAtividade, $data2)==0 && strcmp($horaLocal, $horaAtividade)<0 ){  ?>
+
+                            <div class="col-sm-4 portfolio-item">
+                                    <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
+                                        <div class="caption">
+                                            <div class="caption-content">
+                                                <i class="fa fa-search-plus fa-3x"></i>
+                                            </div>
+                                        </div>
+                                        <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
+                                    </a>
+                                  </div>
+                         <?php } ?>
+
+                        
+                    <?php } ?>
+                <?php } ?>
             <?php } ?>
 
          </div>
@@ -330,7 +363,7 @@
 </section>  
 
 <?php  foreach ($listaEventos as $evento){ ?>
-    <div  class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
+   <div  class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content" >
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -369,7 +402,7 @@
                             <ul>
                               <?php
                                 foreach ($listaAtividades as $atividade){ 
-                                    if ($atividade['evento_id'] == 1){
+                                    if ($atividade['evento_id'] == $evento['id']){
                                         ?>
                                         <ul align="left" style="float:left; margin-left:20px; margin-right:20px;">
                                         <h5><strong>Atividade:</strong></h5><?=$atividade['titulo'];?><br>
@@ -390,7 +423,115 @@
     </div>
 <?php } ?>
 
+<!--Eventos Próximos-->
+<section id="portfolioProximo">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Eventos Próximos</h2>
+                  <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($listaEventos as $evento){ ?>
+                        
+                    <?php  date_default_timezone_set('America/Bahia');
 
+                    foreach ($listaAtividades as $atividade){ 
+
+                        if ($atividade['evento_id'] == $evento['id']){
+                         
+                         $horaAtividade = $atividade['horario'];
+                         $horaLocal = date('H:i:00');
+                         $dataAtividade = $atividade['data'];
+                         $data2= date('Y-m-d');
+
+                         
+                         //<!--Eventos Próximo-->
+                         if ( strcmp($dataAtividade, $data2)>0 ){?>
+
+                               <div class="col-sm-4 portfolio-item">
+                                <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
+                                    <div class="caption">
+                                        <div class="caption-content">
+                                            <i class="fa fa-search-plus fa-3x"></i>
+                                        </div>
+                                    </div>
+                                    <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
+                                </a>
+                             </div>
+
+                        <?php }?>
+                    <?php } ?>
+                <?php } ?>
+            <?php } ?>
+
+         </div>
+    </div>
+</section>  
+
+<?php  foreach ($listaEventos as $evento){ ?>
+   <div  class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content" >
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body" style="margin-top:-150px;">
+                            <h2><?= $evento['titulo']; ?></h2>
+                            <hr class="star-primary">
+                            <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive img-centered" alt="">
+                            <p><?= $evento['descricao']; ?></p>
+                            
+                            <ul class="list-inline item-details">
+                                <li>Link
+                                    <strong><a href="#<?=$evento['link']?>" target="_blank">Clique aqui</a>
+                                    </strong>
+                                </li>
+                                <li>Início do Evento:
+                                    <strong><a href="#"><?=substr($evento['inicio'], 0, 10); ?></a>
+                                    </strong>
+                                </li>
+                                <li>Fim do Evento:
+                                    <strong><a href="#"><?=substr($evento['fim'], 0, 10); ?></a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            
+                        <div align="center" style="float:left; width:100%; margin-bottom:30px;">
+                            <h2>Atividades do Evento</h2>
+                                <hr class="star-primary">
+
+                            <ul>
+                              <?php
+                                foreach ($listaAtividades as $atividade){ 
+                                    if ($atividade['evento_id'] == $evento['id']){
+                                        ?>
+                                        <ul align="left" style="float:left; margin-left:20px; margin-right:20px;">
+                                        <h5><strong>Atividade:</strong></h5><?=$atividade['titulo'];?><br>
+                                        <h5><strong>Data:</strong> </h5><?=$atividade['data'];?><br>
+                                        <h5><strong>Hora:</strong> </h5><?=$atividade['horario'];?><br>
+                                        <h5><strong>Descrição:</strong> </h5><?=$atividade['descricao'];?><br>
+                                        </ul>
+                              <?php }}?>
+                            </ul>
+                        </div>
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+<!--Fim eventos próximos-->
 
 <?php if (!isset($_SESSION['id'])): ?>    
     <!-- Cadastro de User -->
@@ -409,7 +550,7 @@
                     <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
 
                     <div id="form_novo_usuario">
-                        <form method="post" action="?rt=index/add" >
+                        <form method="post" action="?rt=index/add" name="f1">
                             <div class="form-group col-xs-6">
                                         
                                          <div class="row control-group">
@@ -427,7 +568,7 @@
                                         <div class="row control-group">
                                             <fieldset>
 
-                                                <label id="id_tipo_usuario">Matrícula</label> <input class="form-control" type="text" name="identificador" />
+                                                <label id="id_tipo_usuario">Matrícula</label> <input class="form-control" type="text" name="identificador" required/>
                                             </fieldset>
                                         </div>
                                         
@@ -449,57 +590,58 @@
                                         <div class="row control-group">
                                             <fieldset id="curso_aluno">
                                                 <label>Curso</label>
-                                                <input type="text" class="form-control" placeholder="Digite o nome seu curso" name="curso">
+                                                <input type="text" class="form-control" placeholder="Digite o nome seu curso" name="curso" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
 
                                             <fieldset>
-                                                <label>Nome completo</label> <input class="form-control" type="text" placeholder="Digite o nome completo" name="nome_completo" />
+                                                <label>Nome completo</label> <input class="form-control" type="text" placeholder="Digite o nome completo" name="nome_completo" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
                                             <fieldset>
-                                                <label>Endereço</label> <input class="form-control" type="text" placeholder="Digite o endereço" name="endereco" />
+                                                <label>Endereço</label> <input class="form-control" type="text" placeholder="Digite o endereço" name="endereco" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
                                             <fieldset>
-                                                <label>Data de nascimento</label> <input class="form-control" type="date" name="data_nascimento" />
+                                                <label>Data de nascimento</label> <input class="form-control" type="date" name="data_nascimento" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
                                             <fieldset>
-                                                <label>Telefone</label> <input class="form-control" type="text" placeholder="Digite o telefone" name="telefone" />
+                                                <label>Telefone</label> <input class="form-control" type="text" placeholder="Digite o telefone" name="telefone" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
                                             <fieldset>
-                                                <label>Email</label> <input class="form-control" type="text" name="email" placeholder="Digite o email"/>
+                                                <label>Email</label> <input class="form-control" type="text" name="email" placeholder="Digite o email" required/>
+                                            </fieldset>
+                                        </div>
+
+                                      
+                                        <div class="row control-group">
+                                            <fieldset>
+                                                <label>Senha</label> <input class="form-control" type="password" id="senha" name="senha" required/>
                                             </fieldset>
                                         </div>
 
                                         <div class="row control-group">
                                             <fieldset>
-                                                <label>Senha</label> <input class="form-control" type="password" name="senha" />
-                                            </fieldset>
-                                        </div>
-
-                                        <div class="row control-group">
-                                            <fieldset>
-                                                <label>Confirme a senha</label> <input class="form-control" type="password" name="confirmacao_senha" />
+                                                <label>Confirme a senha</label> <input class="form-control" type="password" id="repete_senha" name="confirmacao_senha" />
                                             </fieldset>
                                         </div>
 
                                         <p></p>
                                         <div class="row control-group">
                                             <fieldset>
-                                                <input  class="btn btn-success btn-lg" type="submit" name="cadastrar_novo_usuario" value="Cadastrar" />
+                                                <input  class="btn btn-success btn-lg" type="submit" name="cadastrar_novo_usuario" value="Cadastrar" value="Validar" oninput="validarSenha(this)"/>
                                             </fieldset>
                                         </div>
                            </div>
@@ -524,6 +666,9 @@
                          botar o Publique Seu Evento-->
 <!-- Cadastro Evento -->
 <?php  ?>
+
+
+<?php if (isset($_SESSION['id'])): ?>    
     <section id="cadastroEvento">
         <div class="container">
 
@@ -548,7 +693,7 @@
                 <div class="row control-group" style="width:250px">
                     <fieldset>
                         <label>Nome do evento</label>
-                        <input class="form-control" type="text" name="titulo_evento"/>
+                        <input class="form-control" type="text" name="titulo_evento" required/>
                     </fieldset>
                 </div>
                 <br>
@@ -556,7 +701,7 @@
                 <div class="row control-group" style="width:350px">
                     <fieldset>
                         <label>Cartaz</label>
-                        <input class="form-control" type="file" name="cartaz_evento"/>
+                        <input class="form-control" type="file" name="cartaz_evento" />
                     </fieldset>
                 </div>
 
@@ -574,7 +719,7 @@
                 <div class="row control-group" style="width:250px">
                     <fieldset>
                         <label>Data de inicio</label>
-                        <input class="form-control" type="date" name="data_inicio_evento"/>
+                        <input class="form-control" type="date" name="data_inicio_evento" />
                     </fieldset>
                 </div>
 
@@ -583,7 +728,7 @@
                 <div class="row control-group" style="width:250px">
                     <fieldset>
                         <label>Data de termino</label>
-                        <input class="form-control" type="date" name="data_fim_evento"/>
+                        <input class="form-control" type="date" name="data_fim_evento" />
                     </fieldset>
                 </div>
 
@@ -592,7 +737,7 @@
                 <div class="row control-group" style="width:250px;">
                     <fieldset>
                         <label>Descrição</label>
-                        <textarea class="form-control" name="descricao_evento"></textarea>
+                        <textarea class="form-control" name="descricao_evento" ></textarea>
                     </fieldset>
                 </div>
                     
@@ -611,7 +756,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <label>Data da atividade</label>
-                                <input class="form-control" type="date" name="data_atividade[]"/>
+                                <input class="form-control" type="date" name="data_atividade[]" />
                             </fieldset>
                         </div>
                             
@@ -620,7 +765,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <label>Titulo da atividade</label>
-                                <input class="form-control" type="text" name="titulo_atividade[]"/>
+                                <input class="form-control" type="text" name="titulo_atividade[]" required/>
                             </fieldset>
                         </div>
                             
@@ -629,7 +774,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <label>Horário da atividade</label>
-                                <input class="form-control" type="time" name="horario_atividade[]"/>
+                                <input class="form-control" type="time" name="horario_atividade[]" />
                             </fieldset>
                         </div>
 
@@ -638,7 +783,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <label>Descrição da atividade</label>
-                                <textarea class="form-control" name="descricao_atividade[]"></textarea>
+                                <textarea class="form-control" name="descricao_atividade[]" ></textarea>
                             </fieldset>
                         </div>
 
@@ -723,7 +868,8 @@
             </div>
         </div>
     </section>
-
+<?php endif; ?>
+<?php ?>
 <?php  ?>
 
 <!-- About Section -->
@@ -811,7 +957,6 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="js/freelancer.js"></script>
-
 
 
 </body>

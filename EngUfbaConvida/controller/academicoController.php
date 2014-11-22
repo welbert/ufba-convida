@@ -43,7 +43,7 @@ Class academicoController Extends baseController {
 			try {
 				$id = Executable::EXECUTE_QUERY_GET_ID(db::getInstance(), $academico->inserir());
 				
-				$this->registry->template->mensagem = "Ultimo id: ".$id;
+				//$this->registry->template->mensagem = "Ultimo id: ".$id;
 				
 				if(isset($professor)) {
 					$professor->setSiape($_POST['identificador']);
@@ -70,6 +70,8 @@ Class academicoController Extends baseController {
 		}
 		
 		$this->registry->template->show('form_novo_academico');
+	
+
 	}
 
 	public function login(){
@@ -104,12 +106,13 @@ Class academicoController Extends baseController {
 					echo "<script> alert('Siape ou Senha incorretos. Tente Novamente.');</script>";
 				}
 			}
+
 			elseif (isset($aluno)) {
 
 				$aluno->setMatricula($_POST['login']);
 				$aluno->setSenha($_POST['senha']);
 
-				$condicao = "matricula =' ".$aluno->getMatricula()." ' and senha = '".$aluno->getSenha()."'";
+				$condicao = "matricula ='".$aluno->getMatricula()."' and senha = '".$aluno->getSenha()."'";
 				$query  = $aluno->selecionarAluno($condicao);
 
 			
@@ -119,7 +122,7 @@ Class academicoController Extends baseController {
 
 				
 				if (isset($aluno_logado)) {
-					$_SESSION['id']     = $aluno_logado['academico_id'];
+					$_SESSION['id'] = $aluno_logado['academico_id'];
 					$_SESSION['matricula'] 	= $aluno_logado['matricula'];
 					$this->registry->template->mensagem = "Login feito com sucesso.";
 
@@ -142,7 +145,11 @@ Class academicoController Extends baseController {
 
 			$this->registry->template->listaEventos = $list;
 
-			$this->registry->template->show('index');
+			//$this->registry->template->show('index');
+			echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
+	
 	}
 
 	public function logout(){
@@ -158,9 +165,16 @@ Class academicoController Extends baseController {
 		$this->registry->template->listaEventos = $list;
 		// ---------------------------------------------------//
 		unset($_SESSION['id']);
-		$this->registry->template->show('index');
+		//$this->registry->template->show('index');			
+		echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
+		
 
 	}
+
+
+	
 }
 
 ?>
