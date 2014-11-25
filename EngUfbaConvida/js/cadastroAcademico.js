@@ -8,9 +8,11 @@
             if(tipo_usuario.value == "professor") {
                 tipo_id.innerHTML = "SIAPE";
                 curso.style.display = "none";
+                document.getElementById("curso_aluno").required = false;
             } else if (tipo_usuario.value == "aluno") {
                 tipo_id.innerHTML = "Matricula";
                 curso.style.display = "block";
+                document.getElementById("curso_aluno").required = true;
             }
         }
     

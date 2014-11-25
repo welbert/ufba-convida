@@ -80,29 +80,21 @@
 
                 };
             }
-
-            function foo(){
-                 var campusSelect = document.getElementById("campus");
-                 var instalacaoSelect = document.getElementById("instalacao");
-                 var departamentoSelect = document.getElementById("departamento");
-
-                 var campus = campusSelect.options[campusSelect.selectedIndex].value;
-                 var instalacao = instalacaoSelect.options[instalacaoSelect.selectedIndex].value;
-                 var departamento = departamentoSelect.options[departamentoSelect.selectedIndex].value;
-
-                 <?php foreach ($listaAtividades as $atividade){ ?>
-                    if (strcmp($atividade['departamento'], departamento) {};
-
-                 <?php }?>
-
-               
-            }
-                                
-        </script>
+  </script>
 
     </head>
 
     <body id="page-top" class="index">
+        <!--Script para likes e compartilhamentos usando o facebook-->
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+      <!--fim-->
 
         <script src="js/bootstrap.min.js"></script>
         <script src="js/cadastroUsuario.js"></script>
@@ -237,7 +229,6 @@
                 <input size="50" id="nome" name="buscaLivre" class="form-control" type="text" placeholder="Busca Livre">
             </div>
 
-
             <!--Busca Avançada-->
             <!--<form name="sentMessage" id="contactForm" novalidate>-->
             <div class="controls">
@@ -325,30 +316,31 @@
 <section id="portfolio">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 text-center">
+            <div class="col-lg-12 text-center" style="padding-bottom:50px;">
                 <h2>Acontece Hoje</h2>
                 <p><?php echo date('d/m/Y'); ?></p>
                 <hr class="star-primary">
             </div>
         </div>
         <div class="row">
-            <?php foreach ($listaEventos as $evento){ ?>
+            <?php $conta=0; $numAtividade=0; foreach ($listaEventos as $evento){ ?>
 
             <?php  date_default_timezone_set('America/Bahia');
-
+            
             foreach ($listaAtividades as $atividade){ 
 
                 if ($atividade['evento_id'] == $evento['id']){
-
+                    
                    $horaAtividade = $atividade['horario'];
                    $horaLocal = date('H:i:00');
                    $dataAtividade = $atividade['data'];
                    $data2= date('Y-m-d');
 
                          //Eventos na Data atual
-                   if ( strcmp($dataAtividade, $data2)==0 && strcmp($horaLocal, $horaAtividade)<0 ){  ?>
+                   if ( strcmp($dataAtividade, $data2)==0 && strcmp($horaLocal, $horaAtividade)<0 ){ $conta=$conta+1; $numAtividade=$numAtividade+1;
+                   if ($numAtividade==1){?>
 
-                   <div class="col-sm-4 portfolio-item">
+                   <div class="col-sm-4 portfolio-item" >
                     <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
@@ -357,18 +349,33 @@
                         </div>
                         <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
                     </a>
+                    <div class="fb-like" style="margin-bottom:25px;" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-width="370px" data-share="true"></div>
                 </div>
+                <?php $numAtividade=0;}?>
                 <?php } ?>
+                
+                <?php } ?>
+                <?php } ?>
+               <?php } ?>
 
-
-                <?php } ?>
-                <?php } ?>
-                <?php } ?>
+                <?php if ($conta==0){ ?>
+                <div class="row" align="center" >
+                    <div id="imgheader"  style="margin-top:-100px;">
+                    <img class="img-responsive" src="img/nenhumevento.png" alt="">
+                    <br>
+                    <br>
+                     <div class="page-scroll alert alert-success" role="alert" style="width:30%">
+                            <a class="alert-link" href="#portfolioProximo"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Confira o que está por vir abaixo.</a>
+                        </div>
+                    
+                    </div>
+                </div>
+               <?php } ?>
 
             </div>
         </div>
     </section>  
-
+    
     <?php  foreach ($listaEventos as $evento){ ?>
     <div  class="portfolio-modal modal fade" id="portfolioModal<?=$evento['id']?>" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content" >
@@ -421,7 +428,7 @@
                                     </ul>
                                 </div>
 
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
                             </div>
                         </div>
                     </div>
@@ -440,7 +447,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($listaEventos as $evento){ ?>
+                    <?php $numAtividadeP=0; foreach ($listaEventos as $evento){ ?>
 
                     <?php  date_default_timezone_set('America/Bahia');
 
@@ -455,7 +462,9 @@
 
 
                          //<!--Eventos Próximo-->
-                           if ( strcmp($dataAtividade, $data2)>0 ){?>
+                           if ( strcmp($dataAtividade, $data2)>0 ){ $numAtividadeP=$numAtividadeP+1;
+                                if ($numAtividadeP==1){
+                            ?>
 
                            <div class="col-sm-4 portfolio-item">
                             <a href="#portfolioModal<?=$evento['id']?>" class="portfolio-link" data-toggle="modal">
@@ -465,9 +474,10 @@
                                     </div>
                                 </div>
                                 <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
+                                <div style="margin-bottom:25px;" class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-width="370px" data-share="true"></div>
                             </a>
                         </div>
-
+                        <?php $numAtividadeP=0;}?>
                         <?php }?>
                         <?php } ?>
                         <?php } ?>
@@ -580,7 +590,8 @@
                                     </div>
 
                                     <br/>
-                                    <div class="row control-group">
+
+                                    <div class="row control-group ">
                                         <fieldset>
                                             <label>Departamento</label>
                                             <select name="departamento">
@@ -597,47 +608,47 @@
                                     <div class="row control-group">
                                         <fieldset id="curso_aluno">
                                             <label>Curso</label>
-                                            <input type="text" class="form-control" placeholder="Digite o nome seu curso" name="curso" required/>
+                                            <input type="text" class="form-control" placeholder="Digite o nome seu curso" name="curso" id="curso" />
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
 
                                         <fieldset>
                                             <label>Nome completo</label> <input class="form-control" type="text" placeholder="Digite o nome completo" name="nome_completo" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
                                         <fieldset>
                                             <label>Endereço</label> <input class="form-control" type="text" placeholder="Digite o endereço" name="endereco" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
                                         <fieldset>
                                             <label>Data de nascimento</label> <input class="form-control" type="date" name="data_nascimento" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
                                         <fieldset>
-                                            <label>Telefone</label> <input class="form-control" type="text" placeholder="Apenas números e sem espaços" pattern="[0-9]{10}" name="telefone" required/>
+                                            <label>Telefone</label> <input class="form-control" type="text" placeholder="Apenas números (ddd+número) e sem espaços" pattern="[0-9]{10}" name="telefone" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
                                         <fieldset>
                                             <label>Email</label> <input class="form-control" type="email" name="email" placeholder="Digite o email" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                    <div class="row control-group">
                                         <fieldset>
                                             <label>Senha</label> <input class="form-control" type="password" id="senha" name="senha" required/>
                                         </fieldset>
                                     </div>
-
+                                    <br/>
                                     <div class="row control-group">
                                         <fieldset>
                                             <label>Confirme a senha</label> <input class="form-control" type="password" id="senha2" name="confirmacao_senha" required>
