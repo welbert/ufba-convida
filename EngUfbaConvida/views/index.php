@@ -98,13 +98,6 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/cadastroUsuario.js"></script>
         <script src="js/hideBuscaAvancada.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                $(".modal.fade").click(function(){
-                    $(".close").click();
-                });
-            });
-        </script>
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-fixed-top">
