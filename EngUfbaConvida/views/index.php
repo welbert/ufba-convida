@@ -31,26 +31,17 @@
         <!-- ufba home -->
 
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <!--<link href="css/datepicker.css" rel="stylesheet">-->
         <link rel="stylesheet" type="text/css" href="css/style.css">
         
         <!-- Tema padrao-->
-        <!--<script src="js/jquery.js"></script>-->
-        <link rel="stylesheet" href="css/slideShow.css">
-        
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.js"></script>
+                
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-        <!-- Tema padrao-->
-        <!-- <link rel="stylesheet" href="css/bootstrap-theme.css">-->
-        <script src="js/jquery.js"></script>
-        <!-- <link rel="stylesheet" href="css/slideShow.css">-->
-        
         <script src="js/formulario.js"></script>
 
         <script src="js/cadastroAcademico.js"></script>
         <!--<link rel="stylesheet" type="text/css" href="cadastroAcademico.css">-->
-
 
         <script type="text/javascript">
 
@@ -80,9 +71,9 @@
 
                 };
             }
-  </script>
+        </script>
 
-    </head>
+ </head>
 
     <body id="page-top" class="index">
         <!--Script para likes e compartilhamentos usando o facebook-->
@@ -93,19 +84,12 @@
           js = d.createElement(s); js.id = id;
           js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.0";
           fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));</script>
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
       <!--fim-->
-
-        <script src="js/bootstrap.min.js"></script>
+       
         <script src="js/cadastroUsuario.js"></script>
         <script src="js/hideBuscaAvancada.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                $(".modal.fade").click(function(){
-                    $(".close").click();
-                });
-            });
-        </script>
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -162,19 +146,20 @@
                 </li>
 
             <?php else: ?>
-            <li class="active"><a type="button" class="btn "  data-toggle="modal" data-target="#myModal">Entrar<span class="caret"></span></a></li>
+            <li class="active"><a type="button"  class="btn " data-toggle="modal" data-target="#myModal">Entrar<span class="caret"></span></a></li>
         <?php endif; ?>
 
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           
             <div class="modal-dialog" style="width:350px;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+
+                        <button type="button"  id="btn_close "class="close"   data-dismiss="modal"><span aria-hidden="true" class="bnt_close">&times;</span><span class="sr-only">Fechar</span></button>
                         <h4 class="modal-title" id="myModalLabel">Login</h4>
                     </div>
                     <div class="modal-body">
-
                         <!-- FORM para LOGIN-->
                         <ul>
                             <form action="?rt=academico/login" method="post" class="form-vertical">
@@ -202,7 +187,7 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <input type="submit" class="btn btn-success btn-lg" value="Entrar"/>
+                                <input type="submit" class="btn btn-success btn-lg"   value="Entrar"/>
                             </form>
                         </ul>
                         <!---->
@@ -222,7 +207,7 @@
 <header>
 
     <!-- Busca Home -->
-    <div class="container">
+    <div class="container" >
 
         <div id="imgheader"  style="margin-top:-100px;">
             <img class="img-responsive" src="img/whitelogoUFBAConVida.png" alt="">
@@ -356,7 +341,7 @@
                         </div>
                         <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
                     </a>
-                    <div class="fb-like" style="margin-bottom:25px;" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-width="370px" data-share="true"></div>
+                    <div class="fb-share-button" data-href="" data-layout="button_count"></div>
                 </div>
                 <?php $numAtividade=0;}?>
                 <?php } ?>
@@ -395,7 +380,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body" style="margin-top:-150px;">
+                        <div class="modal-body" >
                             <h2><?= $evento['titulo']; ?></h2>
                             <hr class="star-primary">
                             <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive img-centered" alt="">
@@ -481,7 +466,7 @@
                                     </div>
                                 </div>
                                 <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
-                                <div style="margin-bottom:25px;" class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-width="370px" data-share="true"></div>
+                                <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
                             </a>
                         </div>
                         <?php $numAtividadeP=0;}?>
@@ -505,8 +490,8 @@
                     </div>
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-8 col-lg-offset-2">
-                                <div class="modal-body" style="margin-top:-150px;">
+                            <div class="col-lg-8 col-lg-offset-2" >
+                                <div class="modal-body" >
                                     <h2><?= $evento['titulo']; ?></h2>
                                     <hr class="star-primary">
                                     <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" class="img-responsive img-centered" alt="">
@@ -962,12 +947,6 @@
 </footer>
 
 
-
-<!-- jQuery -->
-
-<script src="js/jquery.js"></script>
-<!--<script src="js/bootstrap-datepicker.js"></script>-->
-<!--<script src="js/datepicker-source.js"></script>-->
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
