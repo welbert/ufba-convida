@@ -129,7 +129,7 @@ Class academicoController Extends baseController {
 				}
 				else
 				{
-					#$this->registry->template->mensagem = "Usuario nao encontrado.";
+					//$this->registry->template->mensagem = "Usuario nao encontrado.";
 					echo "<script> alert('Matrícula ou Senha incorretos. Tente Novamente.');</script>";
 				}
 			}

@@ -128,7 +128,7 @@ Class eventoController Extends baseController {
 	}
 
 
-	public function busca() {
+	public function buscaLivre() {
 		if(isset($_GET)) {
 			$evento = new Evento;
 
@@ -139,7 +139,7 @@ Class eventoController Extends baseController {
 			foreach ($db::getInstance->query($query) as $value) {
 				array_push($busca, $value);
 			}
-
+			
 			$this->registry->template->listaEventos = $busca;
 			
 		}

@@ -109,14 +109,23 @@ Class indexController Extends baseController {
 				}
 				
 			}catch (PDOException $e) {
-				print "Error!: " . $e->getMessage() . "</br>";
+				//print "Error!: " . $e->getMessage() . "</br>";
+				echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
 			}
 			
 		} else {
-			$this->registry->template->mensagem = "form ERROR 1";
+			//$this->registry->template->mensagem = "form ERROR 1";
+			echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
 		}
 		
-		$this->registry->template->show('index');
+		//$this->registry->template->show('index');
+		echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
 	}
 	
 	public function addEvento()
@@ -194,7 +203,10 @@ Class indexController Extends baseController {
 		}
 
 		$this->index();
-		$this->registry->template->show('index');
+		//$this->registry->template->show('index');
+		echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
 	}
 
 
@@ -212,7 +224,10 @@ Class indexController Extends baseController {
 
 			$this->registry->template->listaEventos = $busca;
 		}
-		$this->registry->template->show('index');
+		//$this->registry->template->show('index');
+		echo "<script language= 'JavaScript'>
+				location.href='?rt=index'
+		</script>";
 	}
 }
 
