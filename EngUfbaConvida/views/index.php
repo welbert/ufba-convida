@@ -71,6 +71,14 @@
 
                 };
             }
+
+            function validaSenha (input){ 
+                if (input.value != document.getElementById('senha').value) {
+                    input.setCustomValidity('Repita a senha corretamente');
+                } else {
+                    input.setCustomValidity('');
+                }
+            } 
         </script>
 
  </head>
@@ -90,13 +98,6 @@
        
         <script src="js/cadastroUsuario.js"></script>
         <script src="js/hideBuscaAvancada.js"></script>
-        <script type="text/javascript">
--            $(function(){
--                $(".modal.fade").click(function(){
--                    $(".close").click();
--                });
--            });
--        </script>
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -644,13 +645,13 @@
                                     <br/>
                                    <div class="row control-group">
                                         <fieldset>
-                                            <label>Senha</label> <input class="form-control" type="password" id="senha" name="senha" required/>
+                                            <label for="senha">Senha</label> <input class="form-control" type="password" id="senha" name="senha"  required/>
                                         </fieldset>
                                     </div>
                                     <br/>
                                     <div class="row control-group">
                                         <fieldset>
-                                            <label>Confirme a senha</label> <input class="form-control" type="password" id="senha2" name="confirmacao_senha" required>
+                                            <label for ="senha2">Confirme a senha</label> <input class="form-control" type="password" id="senha2"  name="confirmacao_senha" oninput="validaSenha(this)" required>
                                   
                                         </fieldset>
                                     </div>
@@ -658,8 +659,7 @@
                                     <p></p>
                                     <div class="row control-group">
                                         <fieldset>
-                                            <input  class="btn btn-success btn-lg" type="submit" name="cadastrar_novo_usuario" value="Cadastrar" value="Validar"/>
-                                            <!--oninput="validarSenha(this)"-->
+                                            <input  class="btn btn-success btn-lg" type="submit" id="confirma_cadastro" name="cadastrar_novo_usuario" value="Cadastrar" value="Validar"/>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -974,3 +974,4 @@
 </body>
 
 </html>
+
