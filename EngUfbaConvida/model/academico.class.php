@@ -25,6 +25,10 @@
 		$sql = "delete from ".self::$tabela." where codigo = '".$this->codigo."'";
 		return $sql;
 	}
+
+	public function getNameAcademico($n){
+			return "select nome from ".self::$tabela." where id=".$n; 
+	}
 	
 	public function atualizar() { }
 	

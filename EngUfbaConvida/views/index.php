@@ -150,6 +150,8 @@
 
                 <!--LOGOUT e LOGIN-->
                 <?php if (isset($_SESSION['id'])): ?>
+                <li class="page-scroll"><a href="#">Olá <?php echo $_SESSION['nome'];?>!</a>
+                </li>
                 <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a>
                 </li>
 
