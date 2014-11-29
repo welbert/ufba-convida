@@ -76,6 +76,7 @@ Class academicoController Extends baseController {
 
 	public function login(){
 		// verifica se eh um professor ou aluno
+			$academico = new Academico;
 			if (stristr($_POST['tipo_usuario'], "professor"))
 				$professor = new Professor;
 			if (stristr($_POST['tipo_usuario'], "aluno"))
@@ -98,7 +99,12 @@ Class academicoController Extends baseController {
 				if (isset($professor_logado)) {
 					$_SESSION['id']     = $professor_logado['academico_id'];
 					$_SESSION['siape'] 	= $professor_logado['siape'];
-
+					
+					$query_ = $academico->getNameAcademico($professor_logado['academico_id']);
+					foreach (db::getInstance()->query($query_) as $row){
+						$teste = $row;
+					}
+					$_SESSION['nome'] =	$teste['nome'];
 
 					$this->registry->template->mensagem = "Login feito com sucesso.";
 				}else{
@@ -124,13 +130,21 @@ Class academicoController Extends baseController {
 				if (isset($aluno_logado)) {
 					$_SESSION['id'] = $aluno_logado['academico_id'];
 					$_SESSION['matricula'] 	= $aluno_logado['matricula'];
+					
+
+					$query_ = $academico->getNameAcademico($aluno_logado['academico_id']);
+					foreach (db::getInstance()->query($query_) as $row){
+						$teste = $row;
+					}
+					$_SESSION['nome'] =	$teste['nome'];
+					
 					$this->registry->template->mensagem = "Login feito com sucesso.";
 
 				}
 				else
 				{
 					//$this->registry->template->mensagem = "Usuario nao encontrado.";
-					echo "<script> alert('Matricula ou Senha incorretos. Tente Novamente.');</script>";
+					echo "<script> alert('Matrícula ou Senha incorretos. Tente Novamente.');</script>";
 				}
 			}
 

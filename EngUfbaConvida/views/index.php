@@ -71,6 +71,14 @@
 
                     };
                 }
+
+                function validaSenha (input){ 
+                    if (input.value != document.getElementById('senha').value) {
+                        input.setCustomValidity('Repita a senha corretamente');
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                }
         </script>
 
         <script type="text/javascript">
@@ -150,6 +158,8 @@
 
                 <!--LOGOUT e LOGIN-->
                 <?php if (isset($_SESSION['id'])): ?>
+                <li class="page-scroll"><a href="#">Olá <?php echo $_SESSION['nome'];?>!</a>
+                </li>
                 <li class="page-scroll"><a href="?rt=academico/logout" id="">Sair</a>
                 </li>
 
@@ -583,13 +593,13 @@
                                 <br/>
                                 <div class="row control-group">
                                     <fieldset>
-                                        <label>Senha</label> <input class="form-control" type="password" id="senha" name="senha" required/>
+                                        <label for="senha">Senha</label> <input class="form-control" type="password" id="senha" name="senha" required/>
                                     </fieldset>
                                 </div>
                                 <br/>
                                 <div class="row control-group">
                                     <fieldset>
-                                        <label>Confirme a senha</label> <input class="form-control" type="password" id="senha2" name="confirmacao_senha" required>
+                                        <label for ="senha2">Confirme a senha</label> <input class="form-control" type="password" id="senha2" name="confirmacao_senha" oninput="validaSenha(this)" required>
 
                                     </fieldset>
                                 </div>
@@ -597,8 +607,7 @@
                                 <p></p>
                                 <div class="row control-group">
                                     <fieldset>
-                                        <input  class="btn btn-success btn-lg" type="submit" name="cadastrar_novo_usuario" value="Cadastrar" value="Validar"/>
-                                        <!--oninput="validarSenha(this)"-->
+                                        <input  class="btn btn-success btn-lg" type="submit" id="confirma_cadastro" name="cadastrar_novo_usuario" value="Cadastrar" value="Validar"/>
                                     </fieldset>
                                 </div>
                             </div>
