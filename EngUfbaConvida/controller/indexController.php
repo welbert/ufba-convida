@@ -141,7 +141,7 @@ Class indexController Extends baseController {
 		
 		$evento->setTitulo($_POST['titulo_evento']);
 		$evento->setCartaz($_FILES['cartaz_evento']['name']);
-		$evento->setLink($_POST['link_evento']);
+		$evento->setLink((empty($_POST['link_evento']))?"http://disciplinas.dcc.ufba.br/MATA63/SemestreCorrente#UfbaConvida":$_POST['link_evento']); //Mudar o link de disciplinas para o link do projeto
 		$evento->setInicio($data_inicio_evento[0]);
 		$evento->setFim($data_fim_evento[0]);
 		$evento->setDescricao($_POST['descricao_evento']);
@@ -154,8 +154,9 @@ Class indexController Extends baseController {
 			$id_evento = Executable::EXECUTE_QUERY_GET_ID(db::getInstance(), $evento->add());
 			
 			$nome_diretorio = 'public/'.md5($id_evento);
-			mkdir($nome_diretorio, 0777, true);
-			
+			if (!file_exists($nome_diretorio)) {
+				mkdir($nome_diretorio, 0777, true);
+			}
 			move_uploaded_file($_FILES['cartaz_evento']['tmp_name'],
 			$nome_diretorio.'/'.$_FILES['cartaz_evento']['name']);
 				
@@ -179,11 +180,12 @@ Class indexController Extends baseController {
 			}
 		
 			################################################################################################
-			
-			mkdir('public/apoio', 0777, true);
+			if (!file_exists('public/apoio')) {
+				mkdir('public/apoio', 0777, true);
+			}
 				
 			for($i = 0; $i < sizeof($_POST['nome_apoiador']); $i++) {
-				$url_img_apoiador = $_FILES['imagem_apoiador']['name'][$i];
+				$url_img_apoiador = 'public/apoio/'.$_FILES['imagem_apoiador']['name'][$i];
 		
 				move_uploaded_file($_FILES['imagem_apoiador']['tmp_name'][$i], $url_img_apoiador);
 		

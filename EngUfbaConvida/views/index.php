@@ -79,6 +79,28 @@
                     input.setCustomValidity('');
                 }
             } 
+
+            function validaDataEvento (input){ 
+                var data_inicio = document.getElementById('data_inicio_evento').value;
+                var data_final = input.value;
+                if (data_final < data_inicio) {
+                    input.setCustomValidity('A data final não pode ser inferior a data de inicio');
+                } else {
+                    input.setCustomValidity('');
+                }
+            } 
+
+            function validaDataAtividade (input){ 
+                var data_inicio = document.getElementById('data_inicio_evento').value;
+                var data_final = document.getElementById('data_final_evento').value;
+                var data_atividade = input.value;
+                if (data_atividade > data_final || data_atividade < data_inicio) {
+                    input.setCustomValidity('A data da atividade deve ocorrer no periodo do evento');
+                } else {
+                    input.setCustomValidity('');
+                }
+            }
+
         </script>
         
         <script type="text/javascript">
@@ -364,7 +386,7 @@
                                                 </div>  
                                             </div>
                                             <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
-                                            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
+                                            <div class="fb-share-button" data-href="<?= $evento['link'] ?>" data-layout="button_count"></div>
                                         </a>
                                         </div>
                                     <?php $numAtividadeM=0; }?>
@@ -448,7 +470,7 @@
                         </div>  
                     </div>
                     <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
-                    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
+                    <div class="fb-share-button" data-href="<?= $evento['link'] ?>" data-layout="button_count"></div>
                 </a>
             </div>
 
@@ -509,7 +531,7 @@
                             </div>  
                         </div>
                         <img src="public/<?=md5($evento['id']).'/'.$evento["cartaz"]; ?>" style="width:100%; height:200px;" class="image" alt="">
-                        <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>
+                        <div class="fb-share-button" data-href="<?= $evento['link'] ?>" data-layout="button_count"></div>
                     </a>
                 </div>
 
@@ -614,7 +636,7 @@
                         <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
 
                         <div id="form_novo_usuario" >
-                            <form method="post" action="?rt=index/add" >
+                            <form name="form_user" method="post" action="?rt=index/add" >
                                 <div class="form-group col-xs-6">
 
                                  <div class="row control-group">
@@ -686,7 +708,7 @@
                             <br/>
                             <div class="row control-group">
                                 <fieldset>
-                                    <label>Email</label> <input class="form-control" type="email" name="email" placeholder="Digite o email" required/>
+                                    <label>Email</label> <input class="form-control" type="email" name="email" data-bv-emailaddress="true" placeholder="Digite o email" required/>
                                 </fieldset>
                             </div>
                             <br/>
@@ -761,7 +783,7 @@
                         <div class="row control-group" style="width:350px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Cartaz</label>
-                                <input class="form-control" type="file" name="cartaz_evento" />
+                                <input class="form-control" type="file" name="cartaz_evento" required/>
                             </fieldset>
                         </div>
 
@@ -779,7 +801,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Data de inicio</label>
-                                <input class="form-control" type="date" name="data_inicio_evento" />
+                                <input id="data_inicio_evento" class="form-control" type="date" name="data_inicio_evento" required/>
                             </fieldset>
                         </div>
 
@@ -788,7 +810,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Data de término</label>
-                                <input class="form-control" type="date" name="data_fim_evento" />
+                                <input id="data_final_evento" class="form-control" type="date" name="data_fim_evento" oninput="validaDataEvento(this)" required/>
                             </fieldset>
                         </div>
 
@@ -797,7 +819,7 @@
                         <div class="row control-group" style="width:250px;">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Descrição</label>
-                                <textarea class="form-control" name="descricao_evento" ></textarea>
+                                <textarea class="form-control" name="descricao_evento" required></textarea>
                             </fieldset>
                         </div>
 
@@ -816,7 +838,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Data da atividade</label>
-                                <input class="form-control" type="date" name="data_atividade[]" />
+                                <input class="form-control" type="date" name="data_atividade[]" oninput="validaDataAtividade(this)" required/>
                             </fieldset>
                         </div>
 
@@ -834,7 +856,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Horário da atividade</label>
-                                <input class="form-control" type="time" name="horario_atividade[]" />
+                                <input class="form-control" type="time" name="horario_atividade[]" required/>
                             </fieldset>
                         </div>
 
@@ -843,7 +865,7 @@
                         <div class="row control-group" style="width:250px">
                             <fieldset>
                                 <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Descrição da atividade</label>
-                                <textarea class="form-control" name="descricao_atividade[]" ></textarea>
+                                <textarea class="form-control" name="descricao_atividade[]" required></textarea>
                             </fieldset>
                         </div>
 
@@ -853,7 +875,7 @@
                             <span class="glyphicon glyphicon-exclamation-sign text-warning"></span> <label>Local</label>
 
                             <fieldset>
-                                <select name="instalacao_evento" size="10">
+                                <select name="instalacao_evento" size="10" required>
                                     <optgroup label="CAMPUS">
                                         <?php
                                         foreach($todos_campus as $campi) {
